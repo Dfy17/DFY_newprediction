@@ -223,10 +223,10 @@ if st.button("CALCULATE RISK SCORE"):
         cholecystectomy, bmi_calc, cbd_dia, max_cbds_dia,
         cbd_ang, qrldkl, alp
     ]
-    input_df = pd.DataFrame([input_data], columns=FEATURE_NAMES)
+    input_df = pd.DataFrame([input_data], columns=feature_names)
 
     # 调用管道进行预测
-    final_proba_dist = ann_pipeline_proba(input_df)[0]
+    final_proba_dist = custom_pipeline_proba(input_df)[0]
     risk_score = final_proba_dist[1]
     risk_percentage = risk_score * 100
 
