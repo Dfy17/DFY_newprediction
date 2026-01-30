@@ -59,7 +59,7 @@ CATEGORY_FEATURE_DESC = {
 # ==========================================
 # 2. 加载已保存的模型 (Model Loading)
 # ==========================================
-@st.cache_resource
+#@st.cache_resource
 def load_saved_model():
     """
     从本地的 .pkl 文件加载所有模型组件。
@@ -67,7 +67,7 @@ def load_saved_model():
     """
     try:
         # 使用 joblib 加载模型字典
-        model_package = joblib.load("ann_model_calculator.pkl")
+        model_package = joblib.load("2.训练集构建模型/ann_model_calculator.pkl")
         return model_package
     except FileNotFoundError:
         return None
@@ -89,6 +89,44 @@ ann_model = loaded_data["ann"]
 scaler = loaded_data["scaler"]
 feature_names = loaded_data["feature_names"]
 X_train_data = loaded_data["X_train_data"]  # 用于 LIME 解释的背景数据
+
+
+
+
+#scaler验证
+# 打印关键信息，验证是否拟合
+#print("✅ scaler 类型：", type(scaler))
+#print("✅ scaler 是否有 mean_ 属性：", hasattr(scaler, "mean_"))
+#print("✅ scaler 是否有 scale_ 属性：", hasattr(scaler, "scale_"))
+#if hasattr(scaler, "mean_"):
+    #print("✅ scaler.mean_（拟合后的均值）：", scaler.mean_)
+#if hasattr(scaler, "scale_"):
+    #print("✅ scaler.scale_（拟合后的标准差）：", scaler.scale_)
+
+# 模拟一次 transform 操作，验证是否能正常运行
+#test_input = np.array([[0, 25, 10, 5, 90, 1.2, 80]])  # 符合 7 个特征的测试数据
+#test_input_df = pd.DataFrame(test_input, columns=feature_names)
+#try:
+    #test_scaled = scaler.transform(test_input_df)
+    #print("✅ 模拟 transform 成功，缩放后结果：", test_scaled)
+#except Exception as e:
+    #print("❌ 模拟 transform 失败：", e)
+
+
+#
+# 验证 scaler 状态
+#if hasattr(scaler, "mean_") and hasattr(scaler, "var_"):
+    #print("✅ 验证通过：scaler 已拟合")
+    #print(f"scaler 均值：{scaler.mean_}")
+    #print(f"scaler 方差：{scaler.var_}")
+#else:
+    #print("❌ 验证失败：scaler 未拟合")
+    # 此时必须重新运行训练代码，重新保存模型包
+    # 重新训练的核心步骤：确保 train_data_scaler 有数据 → scaler_ann.fit(train_data_scaler) → 保存 model_package
+
+
+
+
 
 
 # ==========================================
@@ -251,7 +289,7 @@ if st.button("CALCULATE RISK SCORE"):
         st.metric(label="Predicted Probability (Relapse)", value=f"{risk_percentage:.1f}%")
         st.progress(int(risk_percentage))
 
-    # --- 模型详情展示（删除SVM冗余代码，仅保留ANN）---
+    # --- 模型详情展示---
     with st.expander("Show Model Confidence Breakdown"):
         st.write("Detailed probability distribution from the ANN model:")
         ann_prob_no_relapse = final_proba_dist[0]
