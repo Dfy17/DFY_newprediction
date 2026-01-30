@@ -67,7 +67,7 @@ def load_saved_model():
     """
     try:
         # 使用 joblib 加载模型字典
-        model_package = joblib.load("2.训练集构建模型/ann_model_calculator.pkl")
+        model_package = joblib.load("ann_model_calculator.pkl")
         return model_package
     except FileNotFoundError:
         return None
