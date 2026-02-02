@@ -180,7 +180,7 @@ st.markdown("---")
 with st.container():
     col1, col2 = st.columns([1, 1], gap="large")
 
-    # --- 左侧：影像学特征 ---
+    # --- 左侧特征 ---
     with col1:
         st.markdown("### 🖼️ col1")
 
@@ -213,8 +213,8 @@ with st.container():
 
         # 3. CBD Diameter（胆总管直径）
         cbd_dia = st.number_input(
-            "CBD Diameter [mm]",
-            min_value=0.0, max_value=30.0, value=5.0, step=0.1,
+            "CBD Diameter [cm]",
+            min_value=0.0, max_value=2.0, value=0.5, step=0.1,
             help="Common Bile Duct Diameter"
         )
         
@@ -225,27 +225,27 @@ with st.container():
 
         # 4.Maximum CBDS Diameter（最大胆总管结石直径）
         max_cbds_dia = st.number_input(
-            "Maximum CBDS Diameter [mm]",
-            min_value=0.0, max_value=50.0, value=10.0, step=0.1,
+            "Maximum CBDS Diameter [cm]",
+            min_value=0.0, max_value=4.0, value=1.0, step=0.1,
             help="Maximum Common Bile Duct Stone Diameter"
         )
 
         # 5.CBD Angulation（胆总管成角）
         cbd_ang = st.number_input(
             "CBD Angulation [°]",
-            min_value=0.0, max_value=180.0, value=90.0, step=1.0,
+            min_value=80.0, max_value=180.0, value=90.0, step=0.1,
             help="Common Bile Duct Angulation (0-180°)"
         )
         # 6. QRLDKL（影像特征指标）
         qrldkl = st.number_input(
-            "QRLDKL",
-            min_value=0.0, max_value=1000.0, value=100.0, step=1.0,
+            "QRLDKL[boxes]",
+            min_value=0.0, max_value=18.0, value=100.0, step=1.0,
             help="Imaging feature index"
         )
         #7.ALP（碱性磷酸酶，血清学指标）
         alp = st.number_input(
             "ALP [U/L]",
-            min_value=0.0, max_value=2000.0, value=100.0, step=1.0,
+            min_value=40.0, max_value=580.0, value=100.0, step=1.0,
             help="Alkaline Phosphatase (normal: 40-150 U/L)"
         )
 
