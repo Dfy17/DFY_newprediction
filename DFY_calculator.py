@@ -9,8 +9,8 @@ from lime.lime_tabular import LimeTabularExplainer
 # 1. 页面配置与美化 (Page Config & Styling)
 # ==========================================
 st.set_page_config(
-    page_title="DFY Prediction",
-    page_icon="🔬",
+    page_title=" ERCP术后胆总管结石复发概率计算器",
+    page_icon="💻",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -54,7 +54,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 CATEGORY_FEATURE_DESC = {
-    "Cholecystectomy": "Cholecystectomy (胆囊切除史)"
+    "胆囊切除术后": "胆囊切除术后"
 }
 # ==========================================
 # 2. 加载已保存的模型 (Model Loading)
@@ -170,9 +170,9 @@ lime_explainer = LimeTabularExplainer(
 # 4. 用户界面布局 (UI Layout)
 # ==========================================
 
-st.title("🔬 DFY  Predictive Model ")
+st.title("💻 ERCP术后胆总管结石复发概率计算器 ")
 st.markdown("""
-This tool predicts the risk of relapse based on preoperative imaging and serological markers.
+This tool is designed to predict the probability of common bile duct (CBD) stone recurrence in patients who have undergone ERCP.
 """)
 st.caption("Powered by  ANN")
 st.markdown("---")
@@ -182,11 +182,11 @@ with st.container():
 
     # --- 左侧特征 ---
     with col1:
-        st.markdown("### 🖼️ col1")
+        st.markdown("🩺手术史及💪BMI")
 
         # 1. Cholecystectomy（分类特征：0=无，1=有）
         cholecystectomy = st.radio(
-            CATEGORY_FEATURE_DESC["Cholecystectomy"],
+            CATEGORY_FEATURE_DESC["胆囊切除术后"],
             options=[0, 1],
             format_func=lambda x: "No" if x == 0 else "Yes",
             horizontal=True
@@ -194,13 +194,13 @@ with st.container():
         # 2. BMI
         # 身高输入
         height_cm = st.number_input(
-            "Height (身高) [cm]",
+            "身高[cm]",
             min_value=80.0, max_value=250.0, value=165.0, step=0.5,
             help="Normal adult range: 140-200 cm"
         )
         # 体重输入
         weight_kg = st.number_input(
-            "Weight (体重) [kg]",
+            "体重[kg]",
             min_value=30.0, max_value=200.0, value=60.0, step=0.5,
             help="Normal adult range: 40-150 kg"
         )
@@ -210,41 +210,40 @@ with st.container():
         st.success(f"✅ Auto-calculated BMI: **{bmi_calc}**")
         st.markdown('<p class="bmi-hint">BMI formula: weight(kg) / height(m)²</p>', unsafe_allow_html=True)
 
-
-        # 3. CBD Diameter（胆总管直径）
-        cbd_dia = st.number_input(
-            "CBD Diameter [cm]",
-            min_value=0.0, max_value=2.0, value=0.5, step=0.1,
-            help="Common Bile Duct Diameter"
-        )
         
     # --- 右侧：血清学指标 ---
     with col2:
-        st.markdown("### 🩸 col2")
+        st.markdown("🔬检查检验指标与💊服药情况")
         #st.info("Continuous variables. Please enter the raw values from blood test.")
+        # 3. CBD Diameter（胆总管直径）
+        cbd_dia = st.number_input(
+            "胆总管直径[cm]",
+            min_value=0.0, max_value=2.0, value=0.5, step=0.1,
+            help="Common Bile Duct Diameter"
+        )
 
         # 4.Maximum CBDS Diameter（最大胆总管结石直径）
         max_cbds_dia = st.number_input(
-            "Maximum CBDS Diameter [cm]",
+            "胆总管最大直径[cm]",
             min_value=0.0, max_value=4.0, value=1.0, step=0.1,
             help="Maximum Common Bile Duct Stone Diameter"
         )
 
         # 5.CBD Angulation（胆总管成角）
         cbd_ang = st.number_input(
-            "CBD Angulation [°]",
+            "胆总管成角[°]",
             min_value=80.0, max_value=180.0, value=90.0, step=0.1,
             help="Common Bile Duct Angulation (0-180°)"
         )
         # 6. QRLDKL（影像特征指标）
         qrldkl = st.number_input(
-            "QRLDKL[boxes]",
+            "清热利胆颗粒[盒]",
             min_value=0.0, max_value=18.0, value=0.0, step=1.0,
             help="Imaging feature index"
         )
         #7.ALP（碱性磷酸酶，血清学指标）
         alp = st.number_input(
-            "ALP [U/L]",
+            "碱性磷酸酶ALP [U/L]",
             min_value=40.0, max_value=580.0, value=100.0, step=1.0,
             help="Alkaline Phosphatase (normal: 40-150 U/L)"
         )
@@ -270,7 +269,7 @@ if st.button("CALCULATE RISK SCORE"):
 
     # --- 结果展示区 ---
     st.markdown("---")
-    st.markdown("### 📊 Prediction Results")
+    st.markdown("📊 预测结果")
 
     r_col1, r_col2 = st.columns([1, 2])
 
