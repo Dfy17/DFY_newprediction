@@ -182,7 +182,7 @@ with st.container():
 
     # --- 左侧特征 ---
     with col1:
-        st.markdown("###🩺手术史及BMI")
+        st.markdown("🩺手术史及BMI")
 
         # 1. Cholecystectomy（分类特征：0=无，1=有）
         cholecystectomy = st.radio(
@@ -219,7 +219,7 @@ with st.container():
         )
         
     with col2:
-        st.markdown("###的🔬检查检验指标")
+        st.markdown("🔬检查检验指标")
         #st.info("Continuous variables. Please enter the raw values from blood test.")
 
         # 4.Maximum CBDS Diameter（最大胆总管结石直径）
@@ -243,10 +243,9 @@ with st.container():
         )
 
     with col3:
-         st.markdown("###💊服药情况")
-
+        st.markdown("💊服药情况")
         # 7. QRLDKL（清热利胆颗粒）
-    qrldkl = st.number_input(
+        qrldkl = st.number_input(
             "清热利胆颗粒[盒]",
             min_value=0.0, max_value=18.0, value=0.0, step=1.0,
             help="Imaging feature index"
@@ -272,7 +271,7 @@ if st.button("CALCULATE RISK SCORE"):
 
     # --- 结果展示区 ---
     st.markdown("---")
-    st.markdown("### 📊 Prediction Results")
+    st.markdown("📊 预测结果")
 
     r_col1, r_col2 = st.columns([1, 2])
 
