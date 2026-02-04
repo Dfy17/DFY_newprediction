@@ -239,7 +239,7 @@ with st.container():
         # 6. QRLDKL（影像特征指标）
         qrldkl = st.number_input(
             "QRLDKL[boxes]",
-            min_value=0.0, max_value=18.0, value=100.0, step=1.0,
+            min_value=0.0, max_value=18.0, value=0.0, step=1.0,
             help="Imaging feature index"
         )
         #7.ALP（碱性磷酸酶，血清学指标）
