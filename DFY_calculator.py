@@ -54,7 +54,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 CATEGORY_FEATURE_DESC = {
-    "胆囊切除术后": "胆囊切除术后"
+    "胆囊切除术后": ""
 }
 # ==========================================
 # 2. 加载已保存的模型 (Model Loading)
@@ -178,11 +178,11 @@ st.caption("Powered by  ANN")
 st.markdown("---")
 
 with st.container():
-    col1, col2, col3 = st.columns([1, 1, 1], gap="large")
+    col1, col2 = st.columns([1, 1], gap="large")
 
     # --- 左侧特征 ---
     with col1:
-        st.markdown("🩺手术史及BMI")
+        st.markdown("💉手术史及💪BMI")
 
         # 1. Cholecystectomy（分类特征：0=无，1=有）
         cholecystectomy = st.radio(
@@ -209,47 +209,43 @@ with st.container():
         bmi_calc = round(weight_kg / (height_m ** 2), 1)  # 保留1位小数
         st.success(f"✅ Auto-calculated BMI: **{bmi_calc}**")
         st.markdown('<p class="bmi-hint">BMI formula: weight(kg) / height(m)²</p>', unsafe_allow_html=True)
-
-
+        
+    # --- 右侧：血清学指标 ---
+    with col2:
+        st.markdown("🔬检查检验指标与💊服药情况")
+        #st.info("Continuous variables. Please enter the raw values from blood test.")
         # 3. CBD Diameter（胆总管直径）
         cbd_dia = st.number_input(
-            "胆总管直径[cm]",                                    #CBD Diameter
+            "胆总管直径[cm]",
             min_value=0.0, max_value=2.0, value=0.5, step=0.1,
             help="Common Bile Duct Diameter"
         )
-        
-    with col2:
-        st.markdown("🔬检查检验指标")
-        #st.info("Continuous variables. Please enter the raw values from blood test.")
-
         # 4.Maximum CBDS Diameter（最大胆总管结石直径）
         max_cbds_dia = st.number_input(
-            " 胆总管最大直径[cm]",                        #Maximum CBDS Diameter
+            " 胆总管最大直径[cm]",
             min_value=0.0, max_value=4.0, value=1.0, step=0.1,
             help="Maximum Common Bile Duct Stone Diameter"
         )
 
         # 5.CBD Angulation（胆总管成角）
         cbd_ang = st.number_input(
-            " 胆总管成角[°]",                 #CBD Angulation
-            min_value=80.0, max_value=180.0, value=120.0, step=0.1,
+            "胆总管成角[°]",
+            min_value=80.0, max_value=180.0, value=90.0, step=0.1,
             help="Common Bile Duct Angulation (0-180°)"
         )
-        #6.ALP（碱性磷酸酶，血清学指标）
+        # 6. QRLDKL（影像特征指标）
+        qrldkl = st.number_input(
+            "清热利胆颗粒[盒]",
+            min_value=0.0, max_value=18.0, value=3.0, step=1.0,
+            help="Imaging feature index"
+        )
+        #7.ALP（碱性磷酸酶，血清学指标）
         alp = st.number_input(
             "ALP [U/L]",
             min_value=40.0, max_value=580.0, value=100.0, step=1.0,
             help="Alkaline Phosphatase (normal: 40-150 U/L)"
         )
 
-    with col3:
-        st.markdown("💊服药情况")
-        # 7. QRLDKL（清热利胆颗粒）
-        qrldkl = st.number_input(
-            "清热利胆颗粒[盒]",
-            min_value=0.0, max_value=18.0, value=0.0, step=1.0,
-            help="Imaging feature index"
-        )
 st.markdown("<br>", unsafe_allow_html=True)
 
 # ==========================================
@@ -260,7 +256,7 @@ if st.button("CALCULATE RISK SCORE"):
     # 构建输入数据
     input_data = [
         cholecystectomy, bmi_calc, cbd_dia, max_cbds_dia,
-        cbd_ang, alp, qrldkl
+        cbd_ang, qrldkl, alp
     ]
     input_df = pd.DataFrame([input_data], columns=feature_names)
 
