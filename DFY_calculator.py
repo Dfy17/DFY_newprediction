@@ -224,7 +224,7 @@ with st.container():
 
         # 4.Maximum CBDS Diameter（最大胆总管结石直径）
         max_cbds_dia = st.number_input(
-            "胆总管最大直径[cm]",
+            "胆总管结石最大直径[cm]",
             min_value=0.0, max_value=4.0, value=1.0, step=0.1,
             help="Maximum Common Bile Duct Stone Diameter"
         )
